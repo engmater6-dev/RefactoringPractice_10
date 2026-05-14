@@ -1,17 +1,24 @@
 // ❌ Before — 동일 로직이 두 곳에 중복
 class Rectangle {
-    double width, height;
+  double width, height;
+  double computeArea() { return width * height; }
+
 public:
-    double getArea()  { return width * height; }
-    double getScale() { return width * height * 2; }
-    // width * height 가 중복!
+  double getArea() { return computeArea(); }
+  double getScale() { return computeArea() * 2; }
+  // width * height 가 중복!
 };
 
 class Triangle {
-    double base, height;
+  double base, height;
+  double computeArea() { return 0.5 * base * height; }
+
 public:
-    double area()  { return 0.5 * base * height; }
-    double info()  { return 0.5 * base * height; } // 중복!
+  double area() { return computeArea(); }
+
+  double info() {
+    return computeArea();
+  } // 중복 처리는 -> 상속으로 해결하면 될 듯...
 };
 
 // ✅ After — 함수 추출하기 (Extract Function)
@@ -33,4 +40,5 @@ public:
 //     }
 // };
 // class Rect  : public Shape { double area() const override { return w*h; } };
-// class Tri   : public Shape { double area() const override { return 0.5*b*h; } };
+// class Tri   : public Shape { double area() const override { return 0.5*b*h; }
+// };
